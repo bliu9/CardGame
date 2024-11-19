@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Game
 {
     private Player player;
@@ -5,6 +7,6 @@ public class Game
 
     public Game()
     {
-
+        Scanner input = new Scanner(System.in);
     }
 }
