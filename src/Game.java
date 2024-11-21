@@ -4,10 +4,11 @@ public class Game
 {
     private Player player;
     private Deck deck;
+    private int currentPlayer;
 
     public Game()
     {
-
+        this.currentPlayer = 1;
     }
 
     public String[] getNames()
@@ -28,18 +29,6 @@ public class Game
     {
         System.out.println(" da rules ");
     }
+
+
 }
-
-
-
-/*
- Card game: uno
-
- To do:
- - print rules
- - get and set player names
- - start game
- - play game
-
-
-*/

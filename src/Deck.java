@@ -5,22 +5,36 @@ public class Deck
     private int cardsLeft;
     private ArrayList<Card> cards;
 
-    public Deck(String[] rank, String[] suit, int[] value)
+    public Deck(String[] ability, String[] color, int[] number)
     {
         cards = new ArrayList<Card>();
-        fillDeck(rank, suit, value);
+        fillDeck(ability, color, number);
         cardsLeft = cards.size();
     }
 
-    private void fillDeck(String[] rank, String[] suit, int[] value)
+    private void fillDeck(String[] ability, String[] color, int[] number)
     {
-        for (String r : rank)
+        // For each color, create cards with that color and all the number values
+        for (String c : color)
         {
-            for (String s : suit)
+            for (int n : number)
             {
-                for (int v : value)
+                cards.add(new Card("none", c, n));
+            }
+        }
+
+        // Make an ability card for every color
+        for (String a : ability)
+        {
+            for (String c : color)
+            {
+                if (a.equals("Wild"))
                 {
-                    cards.add(new Card(r,s,v));
+                    cards.add(new Card(a, "all", -1));
+                }
+                else
+                {
+                    cards.add(new Card(a, c, -1));
                 }
             }
         }

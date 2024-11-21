@@ -1,48 +1,62 @@
 public class Card {
-    private String rank;
-    private String suit;
-    private int value;
+    private String ability;
+    private String color;
+    private int number;
 
-    public Card (String rank, String suit, int value)
+    public Card (String ability, String color, int value)
     {
-        this.rank = rank;
-        this.suit = suit;
-        this.value = value;
+        this.ability = ability;
+        this.color = color;
+        this.number = value;
     }
 
     public String getRank()
     {
-        return rank;
+        return ability;
     }
 
-    public String getSuit()
+    public String getColor()
     {
-        return suit;
+        return color;
     }
 
-    public int getValue()
+    public int getNumber()
     {
-        return value;
+        return number;
     }
 
-    public void setRank(String rank)
+    public void setAbility(String ability)
     {
-        this.rank = rank;
+        this.ability = ability;
     }
 
-    public void setSuit(String suit)
+    public void setColor(String color)
     {
-        this.suit = suit;
+        this.color = color;
     }
 
-    public void setValue(int value)
+    public void setNumber(int number)
     {
-        this.value = value;
+        this.number = number;
     }
 
     @Override
     public String toString()
     {
-        return rank + " of " + suit;
+        if (this.number == -1)
+        {
+            if (color.equals("all"))
+            {
+                return ability + " Card";
+            }
+            else
+            {
+                return color + " " + ability;
+            }
+        }
+        else
+        {
+            return color + " " + number;
+        }
     }
 }

@@ -45,8 +45,20 @@ public class Player
         hand.add(newCard);
     }
 
+    public void removeCard(Card card)
+    {
+        hand.remove(card);
+    }
+
     public String toString()
     {
         return name + " has " + points + " points\n" + name + "'s cards: " + hand;
+    }
+
+    public void playCard(Card playCard)
+    {
+        //check if you can play card
+        System.out.println(name + " plays a " + playCard.toString());
+        removeCard(playCard);
     }
 }
