@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Card {
     private String ability;
     private String color;
@@ -10,7 +12,7 @@ public class Card {
         this.number = value;
     }
 
-    public String getRank()
+    public String getAbility()
     {
         return ability;
     }
@@ -45,18 +47,15 @@ public class Card {
     {
         if (this.number == -1)
         {
-            if (color.equals("all"))
+            if (this.color.equals("all"))
             {
                 return ability + " Card";
             }
-            else
+            else if (!this.ability.equals("none"))
             {
                 return color + " " + ability;
             }
         }
-        else
-        {
-            return color + " " + number;
-        }
+        return color + " " + number;
     }
 }

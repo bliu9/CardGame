@@ -40,14 +40,14 @@ public class Player
         this.points += points;
     }
 
-    public void addCard(Card newCard)
+    public void addCard(Card card)
     {
-        hand.add(newCard);
+        hand.add(card);
     }
 
-    public void removeCard(Card card)
+    public void addCard()
     {
-        hand.remove(card);
+        hand.add(Game.deck.deal());
     }
 
     public String toString()
@@ -57,8 +57,17 @@ public class Player
 
     public void playCard(Card playCard)
     {
-        //check if you can play card
-        System.out.println(name + " plays a " + playCard.toString());
-        removeCard(playCard);
+        // check if you can play the specified card
+        playCard.checkCanPlay(hand);
+
+        // Prints a line that says which card the player plays
+        System.out.println(this.name + " plays a " + playCard.toString());
+        hand.remove(playCard);
+
+        // Executes the ability of the card, if the card has an ability
+        if (!playCard.getAbility().equals("none"))
+        {
+            playCard.doAbility();
+        }
     }
 }

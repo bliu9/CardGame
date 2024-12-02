@@ -52,11 +52,18 @@ public class Deck
 
     public Card deal()
     {
+        // If the deck is "empty" (cardsLeft == 0)
         if (isEmpty())
         {
-            return null;
+            // Shuffle the deck and reset cardsLeft
+            shuffle();
+            cardsLeft = cards.size();
+            //return null;
         }
+
+        // Decrement cardsLeft, while simultaneously converting cardsLeft from normal index form to array index form
         cardsLeft = cardsLeft - 1;
+        // return the card at that value
         return cards.get(cardsLeft);
     }
 

@@ -33,11 +33,11 @@ public class Main
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Game
-- getNames
+- getName
 - printRules*************
 - checkIsUno*************
 - checkCanPlayCard*******
--
+- playGame***************
 
 Player
 - getters
@@ -52,7 +52,6 @@ Deck
 
 Card
 -
-
 
 
 */
