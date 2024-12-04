@@ -58,7 +58,7 @@ public class Player
     public void playCard(Card playCard)
     {
         // check if you can play the specified card
-        playCard.checkCanPlay(hand);
+        playCard.checkCanPlay();
 
         // Prints a line that says which card the player plays
         System.out.println(this.name + " plays a " + playCard.toString());

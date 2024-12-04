@@ -58,4 +58,9 @@ public class Card {
         }
         return color + " " + number;
     }
+
+    public void checkCanPlay()
+    {
+
+    }
 }

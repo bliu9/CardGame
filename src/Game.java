@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Game
@@ -9,6 +10,8 @@ public class Game
     private String[] abilities = {"+2","+4","Wild"};
     private String[] colors = {"Red","Blue","Yellow","Green"};
     private int[] numbers = {0,1,2,3,4,5,6,7,8,9};
+    public Card currentCard;
+    private int sizeOfHand;
 
     public Game()
     {
@@ -17,8 +20,13 @@ public class Game
         // Creates the deck for the game
         deck = new Deck(abilities, colors, numbers);
         //
-        humanPlayer = new Player();
-        computerPlayer = new Player();
+        Scanner input = new Scanner(System.in);
+        System.out.println("How many cards should each player start with? (enter number)");
+        sizeOfHand = input.nextInt();
+        input.nextLine();
+        //
+        humanPlayer = new Player("Computer", makePlayerHand(sizeOfHand));
+        computerPlayer = new Player(getName(), makePlayerHand(sizeOfHand));
 
     }
 
@@ -27,23 +35,24 @@ public class Game
 
     }
 
-    public String[] getName()
-    {//CHANGE TO JUST GETTING ONE NAME FOR THE HUMAN PLAYER AND RETURNING THAT ONE NAME
-        String[] names = new String[2];
+    public String getName()
+    {
+        //
         Scanner input = new Scanner(System.in);
-
-        System.out.println("Player 1, what is your name?");
-        names[0] = input.nextLine();
-
-        System.out.println("Player 2, what is your name?");
-        names[1] = input.nextLine();
-
-        return names;
+        //
+        System.out.println("Player, what is your name?");
+        //
+        return input.nextLine();
     }
 
     public void printRules()
     {
         System.out.println(" da rules ");
+    }
+
+    public ArrayList<Card> makePlayerHand(int sizeOfHand)
+    {
+        
     }
 
 
