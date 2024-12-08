@@ -5,8 +5,19 @@ public class Main
         Game game = new Game();
 
         game.printRules();
+
+        game.playGame();
     }
 }
+
+
+//ANY TIME THERE IS GETTING PLAYER INPUT, USE A WHILE LOOP TO MAKE SURE THAT CODE DOESN'T BREAK IF PLAYER TYPES IN
+//SOMETHING STUPID; IT SHOULD LOOP UNTIL VALID INPUT GIVEN
+
+
+
+
+
 
 /*
  Card game: uno
@@ -44,7 +55,7 @@ Player
 - setters
 - addCard******************
 - removeCard
-- playCard*****************
+- playCardHelper*****************
 
 Deck
 - deal

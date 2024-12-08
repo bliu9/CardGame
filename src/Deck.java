@@ -9,7 +9,14 @@ public class Deck
     {
         cards = new ArrayList<Card>();
         fillDeck(ability, color, number);
+        shuffle();
         cardsLeft = cards.size();
+
+
+        for (int i = 0; i<cards.size(); i++)
+        {
+            System.out.println(cards.get(i));
+        }
     }
 
     private void fillDeck(String[] ability, String[] color, int[] number)
@@ -69,10 +76,17 @@ public class Deck
 
     public void shuffle()
     {
+//        error
+//                //the cards are not shuffling
         for (int i = cardsLeft-1; i >= 0; i--)
         {
-            int switchIndex = (int) (Math.random()*(i+1));
+            int switchIndex = (int)(Math.random()*(i+1));
             cards.set(i,cards.set(switchIndex, cards.get(i)));
         }
+    }
+
+    public Card getCard(int index)
+    {
+        return cards.get(index);
     }
 }

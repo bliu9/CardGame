@@ -1,9 +1,8 @@
-import java.util.ArrayList;
-
 public class Card {
     private String ability;
     private String color;
     private int number;
+    //private String wildChosenColor;
 
     public Card (String ability, String color, int value)
     {
@@ -59,8 +58,21 @@ public class Card {
         return color + " " + number;
     }
 
-    public void checkCanPlay()
+    public boolean checkCanPlay(Card currentCard, String currentColor)
     {
-
+        // If the color of the card the player wants to play is "all" or the colors match
+        if (this.color.equals("all") || this.color.equals(currentColor))
+        {
+            // Can play card
+            return true;
+        }
+        // If neither of the numbers are -1 (no number) and the numbers match
+        else if (this.number != -1 && currentCard.number != -1 && this.number == currentCard.number)
+        {
+            // Can play card
+            return true;
+        }
+        // If none of those conditions met, cannot play card
+        return false;
     }
 }

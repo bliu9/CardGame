@@ -5,6 +5,7 @@ public class Player
     private ArrayList<Card> hand;
     private int points;
     private String name;
+    private boolean calledUno;
     
     public Player(String name)
     {
@@ -14,10 +15,18 @@ public class Player
 
     public Player(String name, ArrayList<Card> givenHand)
     {
+        //
+        calledUno = false;
+        //
         this.name = name;
         // Adds all cards from givenHand to hand
-        this.hand.addAll(givenHand);
+        this.hand = givenHand;
         points = 0;
+    }
+
+    public boolean getCalledUno()
+    {
+        return calledUno;
     }
 
     public ArrayList<Card> getHand()
@@ -45,9 +54,9 @@ public class Player
         hand.add(card);
     }
 
-    public void addCard()
+    public void addCard(Deck deck)
     {
-        hand.add(Game.deck.deal());
+        hand.add(deck.deal());
     }
 
     public String toString()
@@ -55,19 +64,47 @@ public class Player
         return name + " has " + points + " points\n" + name + "'s cards: " + hand;
     }
 
-    public void playCard(Card playCard)
+    public void printHand()
     {
-        // check if you can play the specified card
-        playCard.checkCanPlay();
+        System.out.println("Your cards: ");
+        for (int i=1; i<=hand.size(); i++)
+        {
+            System.out.print(i+". ");
+            System.out.println(hand.get(i-1));
+        }
+    }
+
+    public boolean playCardHelper(Card playCard, Card currentCard, String currentColor)
+    {
+        // Check if you can play the specified card
+        if (!playCard.checkCanPlay(currentCard, currentColor))
+        {
+            System.out.println("That card can't be played");
+            return false;
+        }
 
         // Prints a line that says which card the player plays
-        System.out.println(this.name + " plays a " + playCard.toString());
+        System.out.println(this.name + " plays a " + playCard);
         hand.remove(playCard);
 
-        // Executes the ability of the card, if the card has an ability
-        if (!playCard.getAbility().equals("none"))
+        return true;
+    }
+
+    public void setCalledUno(boolean calledUno)
+    {
+        this.calledUno = calledUno;
+    }
+
+    public boolean checkWin()
+    {
+        // if the player has no cards left
+        if(hand.size() == 0)
         {
-            playCard.doAbility();
+            //print congratulatory statement and return true
+            System.out.println("CONGRATULATIONS " + name + "! YOU WIN!");
+            return true;
         }
+
+        return false;
     }
 }
