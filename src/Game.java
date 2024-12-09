@@ -1,38 +1,35 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.lang.Math;
 
 public class Game
 {
-    private Player humanPlayer;
-    private Player computerPlayer;
+    private Player Player1;
+    private Player Player2;
     private Deck deck;
     private Player currentPlayer;
     private String[] abilities = {"+2","+4","Wild"};
     private String[] colors = {"Red","Blue","Yellow","Green"};
     private int[] numbers = {0,1,2,3,4,5,6,7,8,9};
-    //private Card currentCard; WAIT WHAT WHY WAS THIS EVEN HERE
     private int sizeOfHand;
     private Card topCard;
     private String currentColor;
-
 
     public Game()
     {
         // Creates the deck for the game
         deck = new Deck(abilities, colors, numbers);
-        //
+        // Gets the starting size of the players' hands
         Scanner input = new Scanner(System.in);
         System.out.print("How many cards should each player start with? ");
         sizeOfHand = input.nextInt();
         input.nextLine();
-        //
-        humanPlayer = new Player("Computer", makePlayerHand(sizeOfHand));
-        computerPlayer = new Player(getName(), makePlayerHand(sizeOfHand));
-
-        //
-        this.currentPlayer = humanPlayer;
-
-        // Deal the top card
+        // Create the two players
+        Player1 = new Player(getName("Player 1"), makePlayerHand(sizeOfHand));
+        Player2 = new Player(getName("Player 2"), makePlayerHand(sizeOfHand));
+        // Set the current player to start at Player2
+        this.currentPlayer = Player2;
+        // Deal a card to be the starting card of the game
         topCard = deck.deal();
         // If the top card is an ability card
         while (topCard.getNumber() == -1)
@@ -40,35 +37,39 @@ public class Game
             // Re-deal the top card
             topCard = deck.deal();
         }
-
         // Set the current color of the game to the color of the top card
         currentColor = topCard.getColor();
-
     }
 
+    // Clears the screen
+    public static void clearScreen()
+    {
+        // Prints 20 rows of blank to prevent players from being able to see their opponent's hand
+        for (int i = 0; i<20; i++)
+        {
+            System.out.println();
+        }
+    }
+
+    // Main gameplay method
     public void playGame()
     {
+        // Loops forever until a player has won
         while (true)
         {
-            // If the current player is the human player (determines by checking the names of the two)
-            if (currentPlayer.getName().equals(humanPlayer.getName())) {
-                currentPlayer = computerPlayer;
-            } else // Else, set the current player to the human player
-            {
-                currentPlayer = humanPlayer;
-            }
+            // Switches between player1 and player2
+            switchPlayer();
 
-            // Prints the top card and a buffer line
-            System.out.print("Current top card: ");
-            System.out.println(topCard + "\n");
+            // Prints the top card and some formatting
+            printTopCard();
 
             // Prints the player's deck with the index number of each card
             currentPlayer.printHand();
 
-            //
+            // Prompts player to play a card and executes its ability
             playCard();
 
-            //
+            // If the current player has won (has 0 cards), then exit the gameplay loop
             if (currentPlayer.checkWin())
             {
                 break;
@@ -78,65 +79,116 @@ public class Game
             currentPlayer.setCalledUno(checkCalledUno(askForUno()));
 
             // Determine whether to apply the Uno punishment of adding a card
-            // If the current player has uno and the current player has not called uno
-            if (isUno(currentPlayer) && !currentPlayer.getCalledUno()) {
-                // Add a card to the current player
-                currentPlayer.addCard(deck);
-                // Tell the player they did not call uno on time
-                System.out.println("You didn't call Uno! You are forced to draw a card!");
-            }
-            // If the current player does not have uno and the current player does call uno
-            if (!isUno(currentPlayer) && currentPlayer.getCalledUno()) {
-                // Add a card to current player
-                currentPlayer.addCard(deck);
-                // Tell player they called uno illegally
-                System.out.println("You called Uno when you didn't have Uno! You are forced to draw a card!");
-            }
-        }
+            doUnoPunishment();
 
-        Scanner input = new Scanner(System.in);
-        System.out.println("Would you like to play again? (y/n) ");
-        if (input.nextLine().equals("y") || input.nextLine().equals("Y") || input.nextLine().equals("yes") || input.nextLine().equals("Yes"))
-        {
-            playGame();
+            // Clears the screen
+            clearScreen();
         }
-
-        System.out.println("Thanks for playing! Byeeee :)");
     }
 
+    // Determine whether to apply the Uno punishment of adding a card
+    private void doUnoPunishment()
+    {
+        // If the current player has uno and the current player has not called uno
+        if (isUno(currentPlayer) && !currentPlayer.getCalledUno()) {
+            // Add a card to the current player
+            currentPlayer.addCard(deck);
+            // Tell the player they did not call uno on time
+            System.out.println("You didn't call Uno!\nYou are forced to draw a card!");
+        }
+        // If the current player does not have uno and the current player does call uno
+        else if (!isUno(currentPlayer) && currentPlayer.getCalledUno()) {
+            // Add a card to current player
+            currentPlayer.addCard(deck);
+            // Tell player they called uno illegally
+            System.out.println("You called Uno when you didn't have Uno!\nYou are forced to draw a card!");
+        }
+        // If the player does have uno and called it correctly
+        else if (isUno(currentPlayer) && currentPlayer.getCalledUno())
+        {
+            System.out.println("You called Uno correctly!\nOne card left to go!");
+        }
+    }
+
+    // Prints the top card and some formatting
+    private void printTopCard()
+    {
+        System.out.println("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        System.out.print("Current top card: ");
+        System.out.print(topCard);
+        // If the card is a wild card
+        if (topCard.getColor().equals("all"))
+        {
+            // Print a clarifying statement that says the chosen color of the wild
+            System.out.println(" - " + currentColor);
+        }
+        // Else, print a new line
+        else
+        {
+            System.out.println();
+        }
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    }
+
+    // Switches between player1 and player2
+    private void switchPlayer()
+    {
+        // If the current player is player1 (determines by checking the names of the two)
+        if (currentPlayer.getName().equals(Player1.getName()))
+        {
+            // Set the current player to player2
+            currentPlayer = Player2;
+        } else // Else, set the current player to the player1
+        {
+            currentPlayer = Player1;
+        }
+    }
+
+    // Asks the player if they want to call Uno and returns their response
     private String askForUno()
     {
+        // Prompts user for uno
         Scanner input = new Scanner(System.in);
-        System.out.println("Would you like to call Uno? If so, type Uno! If not, idk do what you want :)");
+        System.out.println("Would you like to call Uno? If so, type Uno!");
+        // Returns their response
         return input.nextLine();
     }
 
-    public String getName()
+    // Gets the name the user wants to name their player and returns this
+    public String getName(String initName)
     {
-        //
+        // Ask user for what they want their name to be
         Scanner input = new Scanner(System.in);
-        //
-        System.out.print("Player, what is your name? ");
-        //
+        System.out.print(initName + ", what is your name? ");
+        // Returns their response
         return input.nextLine();
     }
 
-    public void printRules()
+    // Prints the rules of Uno with some formatting
+    public static void printRules()
     {
-        System.out.println(" da rules ");
+        System.out.println("Welcome to Uno!");
+        System.out.println("The goal of the game is to be the first player to play all your cards.");
+        System.out.println("But be sure to call Uno when you have one card left, or you will be forced to draw a card.\n");
     }
 
+    // Creates a hand for a player and returns it
     public ArrayList<Card> makePlayerHand(int sizeOfHand)
     {
+        // Creates an array that will store the hand
         ArrayList<Card> playerHand = new ArrayList<Card>();
+        // Adds the user-specified number of cards to the player's initial hand
         for (int i=0; i<sizeOfHand; i++)
         {
             // Get a random card from the deck and add it to the player's hand
             playerHand.add(deck.getCard((int)(Math.random()*sizeOfHand)));
         }
+        // Returns the hand
         return playerHand;
     }
 
+    // Gets card player wants to play and executes its ability
+    // Also handles drawing a card if the user wants to draw a card
     public void playCard()
     {
         // Checks if there is a card that the player can play
@@ -147,13 +199,17 @@ public class Game
         // If there is no card that the player can play, force them to draw a card
         if (canPlayState)
         {
+            // Give text confirmation
             System.out.println("There is no card you can play. You are forced to draw a card.");
+            // Add card to the current player's hand
             currentPlayer.addCard(deck);
         }
 
+        // Initialize variables used in checking if the player's selected card is valid
         Scanner input = new Scanner(System.in);
         Card cardWantToPlay = null;
         int cardIndex;
+        // While the player's selected card cannot be played
         while (!canPlayState)
         {
             System.out.print("What card would you like to play? (Type 0 to draw a card)" + "\n" + "Type number: ");
@@ -181,26 +237,34 @@ public class Game
                 canPlayState = true;
                 // Draw a card
                 currentPlayer.addCard(deck);
+                // Prints out the player's turn
+                System.out.println("\n"+currentPlayer.getName() + " draws a card\n");
             }
         }
     }
 
+    // Executes a card's ability
     private void doCardAbility(Card cardWantToPlay)
     {
-        // If the card has no ability, then do nothing and return
-        if (!cardWantToPlay.getAbility().equals("none"))
+        // If the card has no ability, then update the currentColor and return
+        if (cardWantToPlay.getAbility().equals("none"))
         {
+            // Update the current color of the game to the color of the card the user wants to play
+            currentColor = cardWantToPlay.getColor();
             return;
         }
 
         // Gets the next player
-        // Defaults to the computer player
-        Player nextPlayer = computerPlayer;
-        // If the current player is the computer player
-        if (currentPlayer.getName().equals("Computer"))
+        // Defaults to Player 1
+        Player nextPlayer = Player1;
+        // If the current player is player1 (determines by checking the names of the two)
+        if (currentPlayer.getName().equals(Player1.getName()))
         {
-            // set the next player to the human player
-            nextPlayer = humanPlayer;
+            // Set the current player to player2
+            nextPlayer = Player2;
+        } else // Else, set the current player to the player1
+        {
+            nextPlayer = Player1;
         }
 
         // Below checks what ability the card has and does that ability
@@ -252,6 +316,7 @@ public class Game
         }
     }
 
+    // Checks to see if a card can be played
     private boolean isCardCanPlay()
     {
         // Iterate through the current player's hand
@@ -267,13 +332,17 @@ public class Game
         return false;
     }
 
+    // Checks to see if the player has Uno
     public boolean isUno(Player currentPlayer)
     {
+        // If the player has 1 card, return true; if it does not, return false
         return currentPlayer.getHand().size() == 1;
     }
 
+    // Check to see if the user has called Uno
     public boolean checkCalledUno(String input)
     {
+        // If the user enters something close to "Uno", they have called uno
         return input.contains("uno") || input.contains("Uno") || input.contains("UNO");
     }
 }

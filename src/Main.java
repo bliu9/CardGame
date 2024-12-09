@@ -1,68 +1,32 @@
+import java.util.Scanner;
+
 public class Main
 {
-    public static void main(String args[])
+    public static void main(String[] args)
     {
+        // Prints a refresher for the rules of Uno
+        Game.printRules();
+        // Creates a new game of Uno
         Game game = new Game();
-
-        game.printRules();
-
+        // Starts the game
         game.playGame();
+        // Asks the user if they want to play again or not
+        playAgain(game);
+    }
+
+    private static void playAgain(Game game)
+    {
+        // Asks user if they would like to play again
+        Scanner input = new Scanner(System.in);
+        System.out.println("Would you like to play again? (y/n)");
+        // if the user agrees to start a new game, start a new game
+        if (input.nextLine().equals("y") || input.nextLine().equals("Y") || input.nextLine().equals("yes") || input.nextLine().equals("Yes"))
+        {
+            // Clears the screen and starts a new game
+            Game.clearScreen();
+            game = new Game();
+        }
+        // If they don't want to start a new game, prints a goodbye statement
+        System.out.println("Thanks for playing! Byeeee :)");
     }
 }
-
-
-//ANY TIME THERE IS GETTING PLAYER INPUT, USE A WHILE LOOP TO MAKE SURE THAT CODE DOESN'T BREAK IF PLAYER TYPES IN
-//SOMETHING STUPID; IT SHOULD LOOP UNTIL VALID INPUT GIVEN
-
-
-
-
-
-
-/*
- Card game: uno
- - cards (special ability, color, value)
- - player: human, AI: (hand, can play a card, can draw a card)
-
- Rules:
- - color match or number match to play a card
- - if you don't have a card to play, you draw one card and end turn
- - +2 and +4 cards that have color and allow you to give the other player cards
- - wild card that allows you to change the color of the deck (is all colors)
-
- Computer / AI player:
- - if there is a set of cards that the computer can play, it will choose a random card from that set to play
- - if there is not a card in the set of cards that the computer can play, it will draw a card and end turn
-
- Calling uno:
- - when you reach 1 card remaining in your deck, you have 3 seconds to type uno into the terminal; if not, then you are forced to draw a card
- - computer will have a 66% chance to call uno before 3 seconds and 33% chance to not
-
- Winning:
- - if you have 0 cards in your deck, you win
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Game
-- getName
-- printRules*************
-- checkIsUno*************
-- checkCanPlayCard*******
-- playGame***************
-
-Player
-- getters
-- setters
-- addCard******************
-- removeCard
-- playCardHelper*****************
-
-Deck
-- deal
-- shuffle
-
-Card
--
-
-
-*/
