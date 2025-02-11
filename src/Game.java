@@ -1,3 +1,5 @@
+//Bryan Liu for CS2
+
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.lang.Math;
@@ -13,8 +15,18 @@ public class Game {
     private int sizeOfHand;
     private Card topCard;
     private String currentColor;
+    private GameViewer window;
+    private String gameState;
 
     public Game() {
+
+        this.gameState = "rules";
+        this.window = new GameViewer(this);
+        window.repaint();
+
+
+
+
         // Creates the deck for the game
         deck = new Deck(abilities, colors, numbers);
         // Gets the starting size of the players' hands
@@ -36,6 +48,15 @@ public class Game {
         }
         // Set the current color of the game to the color of the top card
         currentColor = topCard.getColor();
+    }
+
+    public String getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(String gameState)
+    {
+        this.gameState = gameState;
     }
 
     // Clears the screen
@@ -192,7 +213,7 @@ public class Game {
             System.out.print("What card would you like to play? (Type 0 to draw a card)" + "\n" + "Type number: ");
             // Converts the number of card that the player chooses to an index that can be directly used in code
             cardIndex = input.nextInt() - 1;
-            input.nextLine();
+//            input.nextLine();///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             // If the player wants to play a card
             if (cardIndex > -1) {
@@ -251,7 +272,7 @@ public class Game {
 
         // If the card is a +4
         if (cardWantToPlay.getAbility().equals("+4")) {
-            // Add 2 cards to the next player
+            // Add 4 cards to the next player
             for (int i = 0; i < 4; i++) {
                 nextPlayer.addCard(deck);
             }

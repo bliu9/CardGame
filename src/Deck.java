@@ -1,3 +1,5 @@
+//Bryan Liu for CS2
+
 import java.util.ArrayList;
 import java.lang.Math;
 
@@ -48,6 +50,7 @@ public class Deck
                 }
             }
         }
+        System.out.println(cards);
     }
 
     // Checks to see if the deck is "empty"

@@ -1,3 +1,5 @@
+//Bryan Liu for CS2
+
 public class Card {
     private String ability;
     private String color;
@@ -86,6 +88,12 @@ public class Card {
             // Can play card
             return true;
         }
+
+        if (this.ability.equals(currentCard.ability) && !this.ability.equals("none"))
+        {
+            return true;
+        }
+
         // If neither of the numbers are -1 (no number) and the numbers match
         else if (this.number != -1 && currentCard.number != -1 && this.number == currentCard.number)
         {
