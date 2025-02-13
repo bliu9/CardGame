@@ -56,7 +56,7 @@ public class Card {
         // If the card has no number
         if (this.number == -1)
         {
-            // If the card is wild
+            // If the card is wild or +4
             if (this.color.equals("all"))
             {
                 // Return "Wild Card"

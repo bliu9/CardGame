@@ -38,7 +38,7 @@ public class Deck
             for (String c : color)
             {
                 // If the ability card is a wild card
-                if (a.equals("Wild"))
+                if (a.equals("Wild") || a.equals("+4"))
                 {
                     // Set the color of the card to all, with a number value of none (-1)
                     cards.add(new Card(a, "all", -1));
