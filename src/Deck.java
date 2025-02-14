@@ -7,9 +7,12 @@ public class Deck
 {
     private int cardsLeft;
     private ArrayList<Card> cards;
+    private GameViewer window;
 
-    public Deck(String[] ability, String[] color, int[] number)
+    public Deck(String[] ability, String[] color, int[] number, GameViewer window)
     {
+        this.window = window;
+
         // Creates an array list that will store the cards in the deck
         cards = new ArrayList<Card>();
         // Fills that deck with all possible cards using the given abilities, colors, and numbers
@@ -23,12 +26,14 @@ public class Deck
     // Fills the deck with cards based on given abilities, colors, and numbers
     private void fillDeck(String[] ability, String[] color, int[] number)
     {
+        int cardIndex = 0;
         // For each color, create cards with that color and all the number values
         for (String c : color)
         {
             for (int n : number)
             {
-                cards.add(new Card("none", c, n));
+                cards.add(new Card("none", c, n, cardIndex, window));
+                cardIndex++;
             }
         }
 
@@ -41,16 +46,18 @@ public class Deck
                 if (a.equals("Wild") || a.equals("+4"))
                 {
                     // Set the color of the card to all, with a number value of none (-1)
-                    cards.add(new Card(a, "all", -1));
+                    cards.add(new Card(a, "all", -1,cardIndex,window));
+                    cardIndex++;
                 }
                 else
                 {
                     // Make the ability card normally, with a number value of none (-1)
-                    cards.add(new Card(a, c, -1));
+                    cards.add(new Card(a, c, -1,cardIndex,window));
+                    cardIndex++;
                 }
             }
         }
-        System.out.println(cards);
+        System.out.println(cards);//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     // Checks to see if the deck is "empty"

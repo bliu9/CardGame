@@ -1,16 +1,46 @@
 //Bryan Liu for CS2
 
+import java.awt.*;
+
 public class Card {
     private String ability;
     private String color;
     private int number;
+    private int cardIndex;
+    private int x;
+    private int y;
+    private GameViewer window;
 
-    public Card (String ability, String color, int number)
+    public Card (String ability, String color, int number, int cardIndex, GameViewer window)
     {
-        // Sets ability, color, and number
+        // Sets instance variables
         this.ability = ability;
         this.color = color;
         this.number = number;
+        this.cardIndex = cardIndex;
+        this.x = -1;
+        this.y = -1;
+        this.window = window;
+    }
+
+    public void setX(int x)
+    {
+        this.x = x;
+    }
+
+    public void setY(int y)
+    {
+        this.y = y;
+    }
+
+    public void draw(Graphics g)
+    {
+        g.drawImage(window.getCardImages().get(cardIndex),x,y,window);
+    }
+
+    public void draw(Graphics g, int new_X, int new_Y)
+    {
+        g.drawImage(window.getCardImages().get(cardIndex),new_X,new_Y,window);
     }
 
     // Returns card ability

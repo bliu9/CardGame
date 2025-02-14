@@ -28,7 +28,7 @@ public class Game {
 
 
         // Creates the deck for the game
-        deck = new Deck(abilities, colors, numbers);
+        deck = new Deck(abilities, colors, numbers, window);
         // Gets the starting size of the players' hands
         Scanner input = new Scanner(System.in);
         System.out.print("How many cards should each player start with? ");
