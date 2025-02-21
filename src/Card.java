@@ -10,6 +10,9 @@ public class Card {
     private int x;
     private int y;
     private GameViewer window;
+    private final int CARD_WIDTH = 100;
+    private int CARD_HEIGHT;
+    private final double CARD_WIDTH_TO_HEIGHT_RATIO = 1.495327102804;
 
     public Card (String ability, String color, int number, int cardIndex, GameViewer window)
     {
@@ -21,6 +24,7 @@ public class Card {
         this.x = -1;
         this.y = -1;
         this.window = window;
+        this.CARD_HEIGHT = (int)(CARD_WIDTH*CARD_WIDTH_TO_HEIGHT_RATIO);
     }
 
     public int getCardIndex()
@@ -40,12 +44,17 @@ public class Card {
 
     public void draw(Graphics g)
     {
-        g.drawImage(window.getCardImages().get(cardIndex),x,y,window);
+        g.drawImage(window.getCardImages().get(cardIndex),x,y,CARD_WIDTH,CARD_HEIGHT,window);
     }
 
     public void draw(Graphics g, int new_X, int new_Y)
     {
-        g.drawImage(window.getCardImages().get(cardIndex),new_X,new_Y,window);
+        g.drawImage(window.getCardImages().get(cardIndex),new_X,new_Y,CARD_WIDTH,CARD_HEIGHT,window);
+    }
+
+    public void draw(Graphics g, int new_X, int new_Y, boolean increaseSize)
+    {
+        g.drawImage(window.getCardImages().get(cardIndex),new_X,new_Y,CARD_WIDTH*2-40,CARD_HEIGHT*2-40,window);
     }
 
     // Returns card ability

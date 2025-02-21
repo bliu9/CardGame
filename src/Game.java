@@ -63,6 +63,11 @@ public class Game {
         return gameState;
     }
 
+    public Card getTopCard()
+    {
+        return topCard;
+    }
+
     public Player getPlayer(int playerNumber)
     {
         if (playerNumber == 1)
@@ -146,6 +151,8 @@ public class Game {
         else if (isUno(currentPlayer) && currentPlayer.getCalledUno()) {
             System.out.println("You called Uno correctly!\nOne card left to go!");
         }
+
+        window.repaint();
     }
 
     // Prints the top card and some formatting
@@ -238,6 +245,7 @@ public class Game {
         // While the player's selected card cannot be played
         while (!canPlayState) {
             System.out.print("What card would you like to play? (Type 0 to draw a card)" + "\n" + "Type number: ");
+            window.repaint();
             // Converts the number of card that the player chooses to an index that can be directly used in code
             cardIndex = input.nextInt() - 1;
 //            input.nextLine();///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -263,6 +271,7 @@ public class Game {
                 // Prints out the player's turn
                 System.out.println("\n" + currentPlayer.getName() + " draws a card\n");
             }
+            window.repaint();
         }
     }
 

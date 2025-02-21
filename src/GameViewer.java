@@ -76,14 +76,37 @@ public class GameViewer extends JFrame
             {
                 g.setColor(Color.BLACK);
                 g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE));
+                // Sets the text color for player 1 to blue and player 2 to red
+                if (game.getCurrentPlayer().getName().equals(game.getPlayer(1).getName()))
+                {
+                    g.setColor(Color.BLUE);
+                }
+                else
+                {
+                    g.setColor(Color.RED);
+                }
+                g.drawString(game.getCurrentPlayer().getName()+"'s Cards:",CARD_START_DISPLAY,WINDOW_HEIGHT-CARD_HEIGHT-100);
                 g.drawString(""+(i+1),CARD_START_DISPLAY+i*(CARD_WIDTH+CARD_DISPLAY_SPACING)+(CARD_WIDTH/2)-17,WINDOW_HEIGHT-CARD_HEIGHT-35);
-                g.drawImage(cardImages.get(game.getCurrentPlayer().getHand().get(i).getCardIndex()),CARD_START_DISPLAY+i*(CARD_WIDTH+CARD_DISPLAY_SPACING),WINDOW_HEIGHT-CARD_HEIGHT-25,CARD_WIDTH,CARD_HEIGHT,this);
+                game.getCurrentPlayer().getHand().get(i).draw(g,CARD_START_DISPLAY+i*(CARD_WIDTH+CARD_DISPLAY_SPACING),WINDOW_HEIGHT-CARD_HEIGHT-25);
+
+//                g.drawImage(cardImages.get(game.getCurrentPlayer().getHand().get(i).getCardIndex()),CARD_START_DISPLAY+i*(CARD_WIDTH+CARD_DISPLAY_SPACING),WINDOW_HEIGHT-CARD_HEIGHT-25,CARD_WIDTH,CARD_HEIGHT,this);
 
                 //add "type 0 to draw a card" prompt above cards
                 //[player name] plays a [card name] prompt (with the other cases for drawing a card or forced to draw a card)
                 //"would you like to call uno. if so type uno" prompt
                 //NEED TO ADD WINDOW.REPAINT()'s
             }
+
+            // Draw top card of the deck
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE));
+            g.drawString("Top Card",100,100);
+            game.getTopCard().draw(g,150,125,true);
+
+
+            // Prompts player to play a card and executes its ability
+            //playCard();
+            //window.repaint
         }
     }
 
