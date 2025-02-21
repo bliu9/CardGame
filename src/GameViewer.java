@@ -16,9 +16,20 @@ public class GameViewer extends JFrame
     private final int RULES_START_Y = 275;
     private final int RULES_SPACING_Y = 50;
     private final int RULES_FONT_SIZE = 50;
+    private final int CARD_WIDTH = 100;
+    private int CARD_HEIGHT;
+    private final double CARD_WIDTH_TO_HEIGHT_RATIO = 1.495327102804;
+    private final int CARD_DISPLAY_SPACING = 15;
+    private final int CARD_START_DISPLAY = 25;
 
     public GameViewer(Game game)
     {
+        CARD_HEIGHT = (int)(CARD_WIDTH*CARD_WIDTH_TO_HEIGHT_RATIO);
+
+
+
+
+
         // Create reference to backend
         this.game = game;
 
@@ -57,10 +68,22 @@ public class GameViewer extends JFrame
             g.drawString("forced to draw a card.",325,3*RULES_SPACING_Y+RULES_START_Y);
         }
 
+        // If the game is in the playing state
         else if (game.getGameState().equals("playing"))
         {
-            //
-            for (int i = 0; i<)
+            // Draw the player's hand
+            for (int i = 0; i<game.getCurrentPlayer().getHand().size(); i++)
+            {
+                g.setColor(Color.BLACK);
+                g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE));
+                g.drawString(""+(i+1),CARD_START_DISPLAY+i*(CARD_WIDTH+CARD_DISPLAY_SPACING)+(CARD_WIDTH/2)-17,WINDOW_HEIGHT-CARD_HEIGHT-35);
+                g.drawImage(cardImages.get(game.getCurrentPlayer().getHand().get(i).getCardIndex()),CARD_START_DISPLAY+i*(CARD_WIDTH+CARD_DISPLAY_SPACING),WINDOW_HEIGHT-CARD_HEIGHT-25,CARD_WIDTH,CARD_HEIGHT,this);
+
+                //add "type 0 to draw a card" prompt above cards
+                //[player name] plays a [card name] prompt (with the other cases for drawing a card or forced to draw a card)
+                //"would you like to call uno. if so type uno" prompt
+                //NEED TO ADD WINDOW.REPAINT()'s
+            }
         }
     }
 

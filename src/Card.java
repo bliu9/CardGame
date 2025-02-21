@@ -23,6 +23,11 @@ public class Card {
         this.window = window;
     }
 
+    public int getCardIndex()
+    {
+        return cardIndex;
+    }
+
     public void setX(int x)
     {
         this.x = x;

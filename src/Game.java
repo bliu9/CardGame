@@ -48,10 +48,37 @@ public class Game {
         }
         // Set the current color of the game to the color of the top card
         currentColor = topCard.getColor();
+
+
+
+
+
+
+
+        gameState = "playing";
+        window.repaint();
     }
 
     public String getGameState() {
         return gameState;
+    }
+
+    public Player getPlayer(int playerNumber)
+    {
+        if (playerNumber == 1)
+        {
+            return Player1;
+        }
+        else if (playerNumber == 2)
+        {
+            return Player2;
+        }
+        return null;
+    }
+
+    public Player getCurrentPlayer()
+    {
+        return currentPlayer;
     }
 
     public void setGameState(String gameState)
