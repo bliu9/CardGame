@@ -91,6 +91,11 @@ public class Game {
         this.gameState = gameState;
     }
 
+    public String getCurrentColor()
+    {
+        return this.currentColor;
+    }
+
     // Clears the screen
     public static void clearScreen() {
         // Prints 20 rows of blank to prevent players from being able to see their opponent's hand
@@ -128,6 +133,9 @@ public class Game {
 
             // Clears the screen
             clearScreen();
+            window.repaint();
+
+            gameState = "playing";
         }
     }
 
@@ -139,6 +147,7 @@ public class Game {
             currentPlayer.addCard(deck);
             // Tell the player they did not call uno on time
             System.out.println("You didn't call Uno!\nYou are forced to draw a card!");
+            gameState = "Uno Punishment 1";
         }
         // If the current player does not have uno and the current player does call uno
         else if (!isUno(currentPlayer) && currentPlayer.getCalledUno()) {
@@ -146,13 +155,24 @@ public class Game {
             currentPlayer.addCard(deck);
             // Tell player they called uno illegally
             System.out.println("You called Uno when you didn't have Uno!\nYou are forced to draw a card!");
+            gameState = "Uno Punishment 2";
         }
         // If the player does have uno and called it correctly
         else if (isUno(currentPlayer) && currentPlayer.getCalledUno()) {
             System.out.println("You called Uno correctly!\nOne card left to go!");
+            gameState = "Uno Success";
         }
 
         window.repaint();
+
+        // Wait for user to acknowledge Uno punishment screen
+        Scanner input = new Scanner(System.in);
+        System.out.println("Press Enter to continue");
+
+        while (!input.nextLine().equals(""))
+        {
+            System.out.println("Press Enter to continue");
+        }
     }
 
     // Prints the top card and some formatting
@@ -245,7 +265,7 @@ public class Game {
         // While the player's selected card cannot be played
         while (!canPlayState) {
             System.out.print("What card would you like to play? (Type 0 to draw a card)" + "\n" + "Type number: ");
-            window.repaint();
+//            window.repaint();
             // Converts the number of card that the player chooses to an index that can be directly used in code
             cardIndex = input.nextInt() - 1;
 //            input.nextLine();///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -324,6 +344,10 @@ public class Game {
 
             // Keeps prompting user until a valid color is received
             while (!validInput) {
+
+                gameState = "Wild";
+                window.repaint();
+
                 // Gets color the player wants to change the deck to
                 System.out.print("What color do you want to choose: ");
                 color = input.nextLine();
@@ -335,6 +359,8 @@ public class Game {
             }
             // Update the game color to user's specified color
             currentColor = color;
+            gameState = "Wild Chosen";
+            window.repaint();
         }
     }
 

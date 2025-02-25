@@ -69,7 +69,7 @@ public class GameViewer extends JFrame
         }
 
         // If the game is in the playing state
-        else if (game.getGameState().equals("playing"))
+        else if (game.getGameState().equals("playing") || game.getGameState().contains("Uno") || game.getGameState().contains("Wild"))
         {
             // Draw the player's hand
             for (int i = 0; i<game.getCurrentPlayer().getHand().size(); i++)
@@ -88,13 +88,6 @@ public class GameViewer extends JFrame
                 g.drawString(game.getCurrentPlayer().getName()+"'s Cards:",CARD_START_DISPLAY,WINDOW_HEIGHT-CARD_HEIGHT-100);
                 g.drawString(""+(i+1),CARD_START_DISPLAY+i*(CARD_WIDTH+CARD_DISPLAY_SPACING)+(CARD_WIDTH/2)-17,WINDOW_HEIGHT-CARD_HEIGHT-35);
                 game.getCurrentPlayer().getHand().get(i).draw(g,CARD_START_DISPLAY+i*(CARD_WIDTH+CARD_DISPLAY_SPACING),WINDOW_HEIGHT-CARD_HEIGHT-25);
-
-//                g.drawImage(cardImages.get(game.getCurrentPlayer().getHand().get(i).getCardIndex()),CARD_START_DISPLAY+i*(CARD_WIDTH+CARD_DISPLAY_SPACING),WINDOW_HEIGHT-CARD_HEIGHT-25,CARD_WIDTH,CARD_HEIGHT,this);
-
-                //add "type 0 to draw a card" prompt above cards
-                //[player name] plays a [card name] prompt (with the other cases for drawing a card or forced to draw a card)
-                //"would you like to call uno. if so type uno" prompt
-                //NEED TO ADD WINDOW.REPAINT()'s
             }
 
             // Draw top card of the deck
@@ -103,10 +96,76 @@ public class GameViewer extends JFrame
             g.drawString("Top Card",100,100);
             game.getTopCard().draw(g,150,125,true);
 
+            // Print card choosing prompt
+            g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE/2));
+            g.setColor(Color.WHITE);
+            g.fillRoundRect(515,275,350,100,20,20);
+            g.setColor(Color.BLACK);
+            g.drawString("Choose a Card",590,334);
 
-            // Prompts player to play a card and executes its ability
-            //playCard();
-            //window.repaint
+
+
+
+
+
+            // If the player didn't call uno when they had uno
+            if (game.getGameState().equals("Uno Punishment 1"))
+            {
+                g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE/2));
+                g.setColor(Color.WHITE);
+                g.fillRoundRect(515,275,350,100,20,20);
+                g.setColor(Color.BLACK);
+                g.drawString("You Had UNO!",590,334);
+            }
+            // If the player called uno when they didn't have uno
+            else if (game.getGameState().equals("Uno Punishment 2"))
+            {
+                g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE/2));
+                g.setColor(Color.WHITE);
+                g.fillRoundRect(515,275,350,100,20,20);
+                g.setColor(Color.BLACK);
+                g.drawString("You Didn't Have UNO!",530,334);
+            }
+            // if the player called uno correctly
+            else if (game.getGameState().equals("Uno Success"))
+            {
+                g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE/2));
+                g.setColor(Color.WHITE);
+                g.fillRoundRect(515,275,350,100,20,20);
+                g.setColor(Color.BLACK);
+                g.drawString("Great Job! Only One Card Left!",510,334);
+            }
+//            // Else just tell the user to press enter to continue
+//            else
+//            {
+//                g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE/2));
+//                g.setColor(Color.WHITE);
+//                g.fillRoundRect(515,275,350,100,20,20);
+//                g.setColor(Color.BLACK);
+//                g.drawString("Press Enter to Continue",520,334);
+//            }
+
+
+
+
+            // If the user played a wild card
+            if (game.getGameState().equals("Wild"))
+            {
+                g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE/2));
+                g.setColor(Color.WHITE);
+                g.fillRoundRect(515,275,350,100,20,20);
+                g.setColor(Color.BLACK);
+                g.drawString("Choose a Wild Color",550,334);
+            }
+            //
+            if (game.getGameState().equals("Wild Chosen"))
+            {
+                g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE/2));
+                g.setColor(Color.WHITE);
+                g.fillRoundRect(515,275,350,100,20,20);
+                g.setColor(Color.BLACK);
+                g.drawString("The Color is "+game.getCurrentColor(),550,334);
+            }
         }
     }
 
