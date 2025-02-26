@@ -148,6 +148,20 @@ public class Game {
             // Tell the player they did not call uno on time
             System.out.println("You didn't call Uno!\nYou are forced to draw a card!");
             gameState = "Uno Punishment 1";
+
+
+
+
+            window.repaint();
+
+            // Wait for user to acknowledge Uno punishment screen
+            Scanner input = new Scanner(System.in);
+            System.out.println("Press Enter to continue");
+
+            while (!input.nextLine().equals(""))
+            {
+                System.out.println("Press Enter to continue");
+            }
         }
         // If the current player does not have uno and the current player does call uno
         else if (!isUno(currentPlayer) && currentPlayer.getCalledUno()) {
@@ -156,22 +170,39 @@ public class Game {
             // Tell player they called uno illegally
             System.out.println("You called Uno when you didn't have Uno!\nYou are forced to draw a card!");
             gameState = "Uno Punishment 2";
+
+
+
+
+            window.repaint();
+
+            // Wait for user to acknowledge Uno punishment screen
+            Scanner input = new Scanner(System.in);
+            System.out.println("Press Enter to continue");
+
+            while (!input.nextLine().equals(""))
+            {
+                System.out.println("Press Enter to continue");
+            }
         }
         // If the player does have uno and called it correctly
         else if (isUno(currentPlayer) && currentPlayer.getCalledUno()) {
             System.out.println("You called Uno correctly!\nOne card left to go!");
             gameState = "Uno Success";
-        }
 
-        window.repaint();
 
-        // Wait for user to acknowledge Uno punishment screen
-        Scanner input = new Scanner(System.in);
-        System.out.println("Press Enter to continue");
 
-        while (!input.nextLine().equals(""))
-        {
+
+            window.repaint();
+
+            // Wait for user to acknowledge Uno punishment screen
+            Scanner input = new Scanner(System.in);
             System.out.println("Press Enter to continue");
+
+            while (!input.nextLine().equals(""))
+            {
+                System.out.println("Press Enter to continue");
+            }
         }
     }
 
@@ -256,6 +287,8 @@ public class Game {
             System.out.println("There is no card you can play. You are forced to draw a card.");
             // Add card to the current player's hand
             currentPlayer.addCard(deck);
+            gameState = "No Card";
+            window.repaint();
         }
 
         // Initialize variables used in checking if the player's selected card is valid

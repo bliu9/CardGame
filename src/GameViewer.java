@@ -69,7 +69,7 @@ public class GameViewer extends JFrame
         }
 
         // If the game is in the playing state
-        else if (game.getGameState().equals("playing") || game.getGameState().contains("Uno") || game.getGameState().contains("Wild"))
+        else if (game.getGameState().equals("playing") || game.getGameState().contains("Uno") || game.getGameState().contains("Wild") || game.getGameState().equals("No Card"))
         {
             // Draw the player's hand
             for (int i = 0; i<game.getCurrentPlayer().getHand().size(); i++)
@@ -96,12 +96,23 @@ public class GameViewer extends JFrame
             g.drawString("Top Card",100,100);
             game.getTopCard().draw(g,150,125,true);
 
-            // Print card choosing prompt
-            g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE/2));
-            g.setColor(Color.WHITE);
-            g.fillRoundRect(515,275,350,100,20,20);
-            g.setColor(Color.BLACK);
-            g.drawString("Choose a Card",590,334);
+            // Print card choosing prompt if there is a card that can be played
+            if (!game.getGameState().equals("No Card"))
+            {
+                g.setFont(new Font("Arial Black", Font.BOLD, RULES_FONT_SIZE / 2));
+                g.setColor(Color.WHITE);
+                g.fillRoundRect(515, 275, 350, 100, 20, 20);
+                g.setColor(Color.BLACK);
+                g.drawString("Choose a Card", 580, 334);
+            }
+            else
+            {
+                g.setFont(new Font("Arial Black", Font.BOLD, RULES_FONT_SIZE / 2));
+                g.setColor(Color.WHITE);
+                g.fillRoundRect(515, 275, 350, 100, 20, 20);
+                g.setColor(Color.BLACK);
+                g.drawString("Forced to Draw Card", 540, 334);
+            }
 
 
 
@@ -133,7 +144,7 @@ public class GameViewer extends JFrame
                 g.setColor(Color.WHITE);
                 g.fillRoundRect(515,275,350,100,20,20);
                 g.setColor(Color.BLACK);
-                g.drawString("Great Job! Only One Card Left!",510,334);
+                g.drawString("Great Job! One Left!",510,334);
             }
 //            // Else just tell the user to press enter to continue
 //            else
@@ -164,7 +175,7 @@ public class GameViewer extends JFrame
                 g.setColor(Color.WHITE);
                 g.fillRoundRect(515,275,350,100,20,20);
                 g.setColor(Color.BLACK);
-                g.drawString("The Color is "+game.getCurrentColor(),550,334);
+                g.drawString("The Color is "+game.getCurrentColor(),560,334);
             }
         }
     }
