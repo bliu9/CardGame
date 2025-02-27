@@ -18,8 +18,8 @@ public class Game {
     private GameViewer window;
     private String gameState;
 
-    public Game() {
-
+    public Game()
+    {
         this.gameState = "rules";
         this.window = new GameViewer(this);
         window.repaint();
@@ -27,6 +27,7 @@ public class Game {
         setUpGame();
     }
 
+    // Does the necessary steps to create a new game if the player wants to play again
     public void setUpNewGame()
     {
         gameState = "rules";
@@ -57,12 +58,6 @@ public class Game {
         }
         // Set the current color of the game to the color of the top card
         currentColor = topCard.getColor();
-
-
-
-
-
-
 
         gameState = "playing";
         window.repaint();
@@ -158,10 +153,6 @@ public class Game {
             // Tell the player they did not call uno on time
             System.out.println("You didn't call Uno!\nYou are forced to draw a card!");
             gameState = "Uno Punishment 1";
-
-
-
-
             window.repaint();
 
             // Wait for user to acknowledge Uno punishment screen
@@ -180,10 +171,6 @@ public class Game {
             // Tell player they called uno illegally
             System.out.println("You called Uno when you didn't have Uno!\nYou are forced to draw a card!");
             gameState = "Uno Punishment 2";
-
-
-
-
             window.repaint();
 
             // Wait for user to acknowledge Uno punishment screen
@@ -199,10 +186,6 @@ public class Game {
         else if (isUno(currentPlayer) && currentPlayer.getCalledUno()) {
             System.out.println("You called Uno correctly!\nOne card left to go!");
             gameState = "Uno Success";
-
-
-
-
             window.repaint();
 
             // Wait for user to acknowledge Uno punishment screen
@@ -387,10 +370,8 @@ public class Game {
 
             // Keeps prompting user until a valid color is received
             while (!validInput) {
-
                 gameState = "Wild";
                 window.repaint();
-
                 // Gets color the player wants to change the deck to
                 System.out.print("What color do you want to choose: ");
                 color = input.nextLine();
@@ -456,9 +437,9 @@ public class Game {
             playGame();
             playAgain();
         }
+        // If they don't want to start a new game, prints a goodbye statement
         else if (response.equals("n") || response.equals("N") || response.equals("no") || response.equals("No"))
         {
-            // If they don't want to start a new game, prints a goodbye statement
             System.out.println("Thanks for playing! Byeeee :)");
             gameState = "Bye";
             window.repaint();
