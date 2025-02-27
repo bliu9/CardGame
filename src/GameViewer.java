@@ -24,11 +24,8 @@ public class GameViewer extends JFrame
 
     public GameViewer(Game game)
     {
+        // Set card height variable using calculation
         CARD_HEIGHT = (int)(CARD_WIDTH*CARD_WIDTH_TO_HEIGHT_RATIO);
-
-
-
-
 
         // Create reference to backend
         this.game = game;
@@ -52,6 +49,7 @@ public class GameViewer extends JFrame
 
     public void paint(Graphics g)
     {
+        // Draw background image
         g.drawImage(backgroundImage,0,TITLE_BAR_HEIGHT,WINDOW_WIDTH,WINDOW_HEIGHT,this);
 
         // Draws the instructions screen
@@ -74,7 +72,6 @@ public class GameViewer extends JFrame
             // Draw the player's hand
             for (int i = 0; i<game.getCurrentPlayer().getHand().size(); i++)
             {
-                g.setColor(Color.BLACK);
                 g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE));
                 // Sets the text color for player 1 to blue and player 2 to red
                 if (game.getCurrentPlayer().getName().equals(game.getPlayer(1).getName()))
@@ -85,8 +82,10 @@ public class GameViewer extends JFrame
                 {
                     g.setColor(Color.RED);
                 }
+                // Draws the strings for the player's deck title and  numbers above cards
                 g.drawString(game.getCurrentPlayer().getName()+"'s Cards:",CARD_START_DISPLAY,WINDOW_HEIGHT-CARD_HEIGHT-100);
                 g.drawString(""+(i+1),CARD_START_DISPLAY+i*(CARD_WIDTH+CARD_DISPLAY_SPACING)+(CARD_WIDTH/2)-17,WINDOW_HEIGHT-CARD_HEIGHT-35);
+                // Draws the cards themselves
                 game.getCurrentPlayer().getHand().get(i).draw(g,CARD_START_DISPLAY+i*(CARD_WIDTH+CARD_DISPLAY_SPACING),WINDOW_HEIGHT-CARD_HEIGHT-25);
             }
 
@@ -95,6 +94,34 @@ public class GameViewer extends JFrame
             g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE));
             g.drawString("Top Card",100,100);
             game.getTopCard().draw(g,150,125,true);
+            // If the top card is a wild card, then draw the name of the top card in that color
+            if (game.getTopCard().getAbility().equals("Wild"))
+            {
+                if (game.getTopCard().getColor().equals("Red"))
+                {
+                    g.setColor(Color.RED);
+                    g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE));
+                    g.drawString("Top Card",100,100);
+                }
+                else if (game.getTopCard().getColor().equals("Blue"))
+                {
+                    g.setColor(Color.BLUE);
+                    g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE));
+                    g.drawString("Top Card",100,100);
+                }
+                else if (game.getTopCard().getColor().equals("Yellow"))
+                {
+                    g.setColor(Color.YELLOW);
+                    g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE));
+                    g.drawString("Top Card",100,100);
+                }
+                else if (game.getTopCard().getColor().equals("Green"))
+                {
+                    g.setColor(Color.GREEN);
+                    g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE));
+                    g.drawString("Top Card",100,100);
+                }
+            }
 
             // Print card choosing prompt if there is a card that can be played
             if (!game.getGameState().equals("No Card"))
@@ -114,12 +141,7 @@ public class GameViewer extends JFrame
                 g.drawString("Forced to Draw Card", 540, 334);
             }
 
-
-
-
-
-
-            // If the player didn't call uno when they had uno
+            // If the player didn't call uno when they had uno, tell them
             if (game.getGameState().equals("Uno Punishment 1"))
             {
                 g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE/2));
@@ -128,7 +150,7 @@ public class GameViewer extends JFrame
                 g.setColor(Color.BLACK);
                 g.drawString("You Had UNO!",590,334);
             }
-            // If the player called uno when they didn't have uno
+            // If the player called uno when they didn't have uno, tell them
             else if (game.getGameState().equals("Uno Punishment 2"))
             {
                 g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE/2));
@@ -137,29 +159,17 @@ public class GameViewer extends JFrame
                 g.setColor(Color.BLACK);
                 g.drawString("You Didn't Have UNO!",530,334);
             }
-            // if the player called uno correctly
+            // if the player called uno correctly, tell them
             else if (game.getGameState().equals("Uno Success"))
             {
                 g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE/2));
                 g.setColor(Color.WHITE);
                 g.fillRoundRect(515,275,350,100,20,20);
                 g.setColor(Color.BLACK);
-                g.drawString("Great Job! One Left!",510,334);
+                g.drawString("Great Job! One Left!",540,334);
             }
-//            // Else just tell the user to press enter to continue
-//            else
-//            {
-//                g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE/2));
-//                g.setColor(Color.WHITE);
-//                g.fillRoundRect(515,275,350,100,20,20);
-//                g.setColor(Color.BLACK);
-//                g.drawString("Press Enter to Continue",520,334);
-//            }
 
-
-
-
-            // If the user played a wild card
+            // If the user played a wild card, tell them to choose a color
             if (game.getGameState().equals("Wild"))
             {
                 g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE/2));
@@ -168,7 +178,7 @@ public class GameViewer extends JFrame
                 g.setColor(Color.BLACK);
                 g.drawString("Choose a Wild Color",550,334);
             }
-            //
+            // Tell the user the color they chose
             if (game.getGameState().equals("Wild Chosen"))
             {
                 g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE/2));
@@ -178,11 +188,30 @@ public class GameViewer extends JFrame
                 g.drawString("The Color is "+game.getCurrentColor(),560,334);
             }
         }
+
+        // If a player has won the game, print win screen and ask to play again
+        if (game.getGameState().equals("Win"))
+        {
+            g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE*2));
+            g.setColor(Color.BLACK);
+            g.drawImage(backgroundImage,0,TITLE_BAR_HEIGHT,WINDOW_WIDTH,WINDOW_HEIGHT,this);
+            g.drawString(game.getCurrentPlayer().getName()+" WINS!!!",100,320);
+            g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE/3 * 2));
+            g.drawString("Would you like to play again? (y/n)",175,420);
+        }
+
+        // If the player doesn't want to play again, say byeeeee
+        else if (game.getGameState().equals("Bye"))
+        {
+            g.setFont(new Font("Arial Black",Font.BOLD,RULES_FONT_SIZE*2));
+            g.setColor(Color.BLACK);
+            g.drawImage(backgroundImage,0,TITLE_BAR_HEIGHT,WINDOW_WIDTH,WINDOW_HEIGHT,this);
+            g.drawString("BYEE",350,375);
+        }
     }
 
     public ArrayList<Image> getCardImages()
     {
         return cardImages;
     }
-
 }
